@@ -1,0 +1,42 @@
+﻿@model pip_air.Models.Passenger
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Passenger</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FIO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FIO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Num_pasport)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Num_pasport)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Flight.Airliner)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Flight.Airliner)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,50 @@
+﻿@model pip_air.Models.Tiskets
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Tiskets</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Sum_place)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sum_place)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sum_rezerved)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sum_rezerved)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sum_bought)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sum_bought)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Flight.Airliner)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Flight.Airliner)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,11 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    ViewBag.Title = "Error";
+}
+
+<h2 class="text-danger">Ошибка</h2>
+<div class="table">
+    <h2 class="text-danger">Не возможно удалить запись</h2>
+    @Html.ActionLink("На главную", "Index", "Flights", null, new { @class = "btn btn-default" })
+</div>

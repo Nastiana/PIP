@@ -1,0 +1,68 @@
+﻿@model IEnumerable<pip_air.Models.Information>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Информация о полете</h2>
+
+<p>
+@if (User.IsInRole("Manager"))
+{
+    @Html.ActionLink("Добавить", "Create")
+}
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Номер рейса
+        </th>
+        <th>
+            Город вылета
+        </th>
+        <th>
+            Город приытия
+        </th>
+        <th>
+            Время отправления
+        </th>
+        <th>
+            Время прибытия
+        </th>
+        
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Flight.Num_flight)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Departure_place)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Arrival_place)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Time_departure)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Time_arrival)
+        </td>
+   
+        <td>
+@if (User.IsInRole("Manager"))
+{
+            @Html.ActionLink("Редактирование", "Edit", new { id = item.Id })
+}
+            |
+    @if (User.IsInRole("Manager"))
+    {
+            @Html.ActionLink("Удаление", "Delete", new { id = item.Id })
+    }
+        </td>
+    </tr>
+}
+
+</table>

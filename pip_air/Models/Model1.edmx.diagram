@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="813b0a34185c4dafb8386c14a1b18c24" Name="Diagram1">
+        <EntityTypeShape EntityType="AirportsModel.Flight" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirportsModel.Information" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirportsModel.Passenger" Width="1.5" PointX="3" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AirportsModel.Tiskets" Width="1.5" PointX="3" PointY="7.125" IsExpanded="true" />
+        <AssociationConnector Association="AirportsModel.FK_Information_ToTable" ManuallyRouted="false" />
+        <AssociationConnector Association="AirportsModel.FK_Passenger_ToTable" ManuallyRouted="false" />
+        <AssociationConnector Association="AirportsModel.FK_Tiskets_ToTable" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="AirportsModel.sysdiagrams" Width="1.5" PointX="5.375" PointY="0.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,54 @@
+﻿@model IEnumerable<pip_air.Models.Passenger>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Пассажиры</h2>
+
+<p>
+@if (User.IsInRole("Manager"))
+{
+    @Html.ActionLink("Добавить", "Create")
+}
+</p>
+<table class="table">
+    <tr>
+        <th>
+           ФИО
+        </th>
+        <th>
+           Номер паспорта
+        </th>
+        <th>
+            Номер рейса
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FIO)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Num_pasport)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Flight.Num_flight)
+        </td>
+        <td>
+@if (User.IsInRole("Manager"))
+{
+            @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }) 
+}
+            |
+@if (User.IsInRole("Manager"))
+{
+            @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
+}
+        </td>
+    </tr>
+}
+
+</table>

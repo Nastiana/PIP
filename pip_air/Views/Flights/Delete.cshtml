@@ -1,0 +1,47 @@
+﻿@model pip_air.Models.Flight
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Удаление</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Рейсы</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Номер рейса
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Num_flight)
+        </dd>
+        <dt>
+            Авиолайнер
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Airliner)
+        </dd>
+
+        <dt>
+            Номер аэропорта
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name_airport)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить" class="btn btn-default" /> |
+            @Html.ActionLink("Назад", "Index")
+        </div>
+    }
+</div>

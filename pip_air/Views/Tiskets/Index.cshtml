@@ -1,0 +1,65 @@
+﻿@model IEnumerable<pip_air.Models.Tiskets>
+@using pip_air.Models
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Билеты</h2>
+
+<p>
+
+    @if (User.IsInRole("Manager"))
+    {
+        @Html.ActionLink("Добавить", "Create")
+    }
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Номер рейса
+        </th>
+        <th>
+            Кол-во мест
+        </th>
+        <th>
+            Зарезервировано
+        </th>
+        <th>
+            Куплено
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Flight.Num_flight)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sum_place)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sum_rezerved)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sum_bought)
+            </td>
+
+            <td>
+            @if (User.IsInRole("Manager"))
+            {
+
+                @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }) 
+            }
+                |
+            @if (User.IsInRole("Manager"))
+            {
+                @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
+                }
+            </td>
+        </tr>
+    }
+
+</table>
