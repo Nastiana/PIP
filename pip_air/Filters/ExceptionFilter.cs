@@ -27,6 +27,12 @@ namespace pip_air.Filters
                         filterContext.ExceptionHandled = true;
                         break;
                     }
+                case "410":
+                    {
+                        filterContext.Result = new RedirectResult("~/Error/Error");
+                        filterContext.ExceptionHandled = true;
+                        break;
+                    }
             }
         }
     }

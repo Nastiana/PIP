@@ -11,12 +11,16 @@ namespace pip_air.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Information
     {
         public int Id { get; set; }
+        [Display(Name = "Номер рейсы")]
         public int Num_flight { get; set; }
+        [Display(Name = "Город вылета")]
         public string Departure_place { get; set; }
+        [Display(Name = "Город прибытия")]
         public string Arrival_place { get; set; }
         public System.DateTime Time_departure { get; set; }
         public System.DateTime Time_arrival { get; set; }

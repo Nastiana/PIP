@@ -10,19 +10,13 @@
 namespace pip_air.Models
 {
     using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
-    public partial class Tiskets
-    {
-        public int Id { get; set; }
-        [Display(Name = "Номер рейсы")]
-        public int Num_flight { get; set; }
-        [Display(Name = "Кол-во мест")]
-        public int Sum_place { get; set; }
-        public Nullable<int> Sum_rezerved { get; set; }
-        public Nullable<int> Sum_bought { get; set; }
     
-        public virtual Flight Flight { get; set; }
+    public partial class sp_helpdiagrams_Result
+    {
+        public string Database { get; set; }
+        public string Name { get; set; }
+        public int ID { get; set; }
+        public string Owner { get; set; }
+        public int OwnerID { get; set; }
     }
 }

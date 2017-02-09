@@ -1,57 +1,107 @@
-﻿@model IEnumerable<pip_air.Models.Flight>
+﻿@model PagedList.IPagedList<pip_air.Models.Flight>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "Index";
 }
 
 <h2>Рейсы</h2>
-<p>
-   
-    @if (User.IsInRole("Manager"))
-{
-    @Html.ActionLink("Добавить", "Create")
-    
-}
-</p>
-<table class="table">
+<div class="row">
+    <p>
+        @if (User.IsInRole("Manager"))
+        {
+            <div class="col-md-8">
+                @Html.ActionLink("Добавить", "Create", null, new { @class = "btn btn-default" })
+            </div>
+        }
+    </p>
+                <div class="col-md-4 pull-right books-filter">
+                    <div class="input-group">
+                        <input type="text" class="form-control" aria-label="Text input with dropdown button">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="filter-title">@Html.DisplayNameFor(model => model.FirstOrDefault().Num_flight)</span>
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li id="name"><a href="#">@Html.DisplayNameFor(model => model.FirstOrDefault().Num_flight)</a></li>
+                                <li id="Airliner"><a href="#">@Html.DisplayNameFor(model => model.FirstOrDefault().Airliner)</a></li>
+                                <li id="Name_airport"><a href="#">@Html.DisplayNameFor(model => model.FirstOrDefault().Name_airport)</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+<table class="table table-hover">
     <tr>
         <th>
             Номер рейса
         </th>
         <th>
-            Авиолайнер
+            Авиалайнер
         </th>
         <th>
-            Название аэропорта
+            Название авиакомпании
+        </th>
+        <th>
+            Наличие мест
         </th>
 
         <th></th>
     </tr>
-
 @foreach (var item in Model) {
-    <tr>
-        <td>
+    <tr class="card">
+        <td class="name">
             @Html.DisplayFor(modelItem => item.Num_flight)
         </td>
-        <td>
+        <td class="Airliner">
             @Html.DisplayFor(modelItem => item.Airliner)
         </td>
-        <td>
+        <td class="Name_airport">
             @Html.DisplayFor(modelItem => item.Name_airport)
         </td>
-
+        <td class="Place">
+        @if(item.Place == "Yes")
+        {
+            <div class="tmp">@Html.DisplayFor(modelItem => item.Place)</div>
+        }
+        else 
+         {
+            <div class="tmp1">@Html.DisplayFor(modelItem => item.Place)</div>
+         }
+        </td>
         <td>
     @if (User.IsInRole("Manager"))
         {
-            @Html.ActionLink("Редактировать", "Edit", new { id = item.Num_flight }) 
+            @Html.ActionLink("Изменить", "Edit", new { id = item.Num_flight }, new { @class = "btn icon-redact" }) 
         }
-    |
+    
      @if (User.IsInRole("Manager"))
-        {
-            @Html.ActionLink("Удалить", "Delete", new { id = item.Num_flight })
-        }
+     {
+         <a class="btn icon-create" onclick="showDelete('../Flights/Delete/@item.Num_flight');">Удалить</a>
+     }
+            @if (User.IsInRole("User"))
+            {
+                if (item.Place == "Yes")
+
+                {
+                <div class="col-md-8">
+                    @Html.ActionLink("Запись на рейс", "Create", "Passengers",  new { id = item.Num_flight }, new { @class = "btn btn-default" })
+                </div>
+                }
+
+            }
+   
         </td>
     </tr>
 }
 
 </table>
+<br />
+Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))

@@ -1,0 +1,34 @@
+﻿#delete {
+	display: none;
+	width: 100%;
+	height:100%;
+	position:fixed;
+	left:0;
+	top:0;
+	background-color: rgba(0,0,0,.7);
+	overflow: hidden;
+	z-index: 100;
+    color: WHITE;
+}
+#delete div {
+	box-sizing: border-box;
+    text-align: center;
+	width: 200px;
+	height: 150px;
+	background-color: #428bca;
+	position: absolute;
+	top: calc(50% - 75px);
+	left: calc(50% - 100px);
+	padding-top: 40px;
+	border-radius: 5px;
+	box-shadow: 0 0 10px black;
+
+}
+#delete div p {
+	font-size: 16pt;
+	margin-bottom: 20px;
+}
+
+.delbut {
+	margin: 0 10px;
+}

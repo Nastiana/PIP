@@ -1,6 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    text-decoration:none !important;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -21,4 +22,37 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+.tmp1 {
+    color:red !important;
+}
+.tmp{
+    color:green !important;
+}
+.row{
+    margin-bottom: 20px;
+}
+a :hover {
+    color: black !important;
+    text-decoration: none !important;
+}
+.icon-create{
+    color: #ffffff;
+    background: #F03C79;
+}
+.icon-create:hover
+{
+    color: #ffffff;
+    background: #A92A55;
+}
+.icon-redact{
+    color: #ffffff;
+    background: #f5d561;
+}
+.icon-redact:hover{
+    color: #ffffff;
+    background: #c4ab53;
+}
+.books-filter button { 
+    background: #428bca;
 }

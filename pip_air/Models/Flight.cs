@@ -11,7 +11,8 @@ namespace pip_air.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Flight
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,10 +22,14 @@ namespace pip_air.Models
             this.Passenger = new HashSet<Passenger>();
             this.Tiskets = new HashSet<Tiskets>();
         }
-    
+
+        [Display(Name = "Номер рейсы")]
         public int Num_flight { get; set; }
+        [Display(Name = "Авиалайнер")]
         public string Airliner { get; set; }
+        [Display(Name = "Название авиакомпании")]
         public string Name_airport { get; set; }
+        public string Place { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Information> Information { get; set; }

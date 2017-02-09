@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using pip_air.Models;
+using PagedList;
+using System.Collections.Generic;
 
 namespace pip_air.Controllers
 {
-    [Filters.ActionFilter]
-    [Filters.ExceptionFilter]
+    [Authorize]
     [Authorize(Roles = "Admin")]
     public class UsersController : Controller
     {
@@ -20,7 +17,20 @@ namespace pip_air.Controllers
         // GET: Users
         public ActionResult Index()
         {
-            return View(db.AspNetUsers.ToList());
+            return View();
+        }
+
+        // Получение json объекта 
+        public ActionResult GetUsers()
+        {
+            // возвращаем коллекцию анонимных объектов (в Select) в формате json
+            return Json(db.AspNetUsers.Select(item => new
+            {
+                id = item.Id,
+                email = item.Email,
+                userName = item.UserName,
+                role = item.AspNetRoles.FirstOrDefault().Name
+            }), JsonRequestBehavior.AllowGet);
         }
 
         // GET: Users/Details/5
@@ -28,14 +38,14 @@ namespace pip_air.Controllers
         {
             if (id == null)
             {
-                throw new Exception("400");
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AspNetUsers aspNetUsers = db.AspNetUsers.Find(id);
-            if (aspNetUsers == null)
+            AspNetUsers aspNetUser = db.AspNetUsers.Find(id);
+            if (aspNetUser == null)
             {
-                throw new Exception("404");
+                return HttpNotFound();
             }
-            return View(aspNetUsers);
+            return View(aspNetUser);
         }
 
         // GET: Users/Create
@@ -45,20 +55,20 @@ namespace pip_air.Controllers
         }
 
         // POST: Users/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
+        // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] AspNetUsers aspNetUsers)
+        public ActionResult Create([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] AspNetUsers aspNetUser)
         {
             if (ModelState.IsValid)
             {
-                db.AspNetUsers.Add(aspNetUsers);
+                db.AspNetUsers.Add(aspNetUser);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(aspNetUsers);
+            return View(aspNetUser);
         }
 
         // GET: Users/Edit/5
@@ -66,43 +76,43 @@ namespace pip_air.Controllers
         {
             if (id == null)
             {
-                throw new Exception("400");
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AspNetUsers aspNetUsers = db.AspNetUsers.Find(id);
-            if (aspNetUsers == null)
+            var aspNetUser = db.AspNetUsers.Find(id);
+            if (aspNetUser == null)
             {
-                throw new Exception("404");
+                return HttpNotFound();
             }
-            ViewBag.role = db.AspNetRoles.ToList();
-            return View(aspNetUsers);
+
+            ViewBag.roles = db.AspNetRoles.ToList();
+
+            return View(aspNetUser);
         }
 
         // POST: Users/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
+        // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] AspNetUsers aspNetUsers)
+        public ActionResult Edit(AspNetUsers aspNetUser)
         {
             if (ModelState.IsValid)
             {
                 var role = Request.Form["Role"].ToString();
-                db.Entry(aspNetUsers).State = EntityState.Modified;
+                db.Entry(aspNetUser).State = EntityState.Modified;
                 db.Database.ExecuteSqlCommand($@"
                     UPDATE [AspNetUserRoles]
                     SET [AspNetUserRoles].[RoleId] = (
-                        SELECT [id]
+                        SELECT [Id]
                         FROM [AspNetRoles]
                         WHERE [AspNetRoles].[Name] = '{role}'
                     )
-                    WHERE [AspNetUserRoles].[UserId] = '{aspNetUsers.Id}'
-                    ");
-                db.Entry(aspNetUsers).State = EntityState.Modified;
+                    WHERE [AspNetUserRoles].[UserId] = '{aspNetUser.Id}'
+                ");
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            return View(aspNetUsers);
+            return View(aspNetUser);
         }
 
         // GET: Users/Delete/5
@@ -110,14 +120,14 @@ namespace pip_air.Controllers
         {
             if (id == null)
             {
-                throw new Exception("400");
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AspNetUsers aspNetUsers = db.AspNetUsers.Find(id);
-            if (aspNetUsers == null)
+            AspNetUsers aspNetUser = db.AspNetUsers.Find(id);
+            if (aspNetUser == null)
             {
-                throw new Exception("404");
+                return HttpNotFound();
             }
-            return View(aspNetUsers);
+            return View(aspNetUser);
         }
 
         // POST: Users/Delete/5
@@ -125,10 +135,14 @@ namespace pip_air.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            AspNetUsers aspNetUsers = db.AspNetUsers.Find(id);
-            db.AspNetUsers.Remove(aspNetUsers);
+            AspNetUsers aspNetUser = db.AspNetUsers.Find(id);
+            db.AspNetUsers.Remove(aspNetUser);
             db.SaveChanges();
             return RedirectToAction("Index");
+
+           // AspNetUsers aspNetUser = db.AspNetUsers.Find(id);
+//db.AspNetUsers.Remove(aspNetUser);
+          //  db.SaveChanges();
         }
 
         protected override void Dispose(bool disposing)

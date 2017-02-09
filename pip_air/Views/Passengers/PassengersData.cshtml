@@ -1,0 +1,31 @@
+﻿@model IEnumerable<pip_air.Models.Passenger>
+
+@foreach (var item in Model)
+{
+    <tr class="card">
+        <td class="name">
+            @Html.DisplayFor(modelItem => item.Num_flight)
+        </td>
+        <td class="FIO">
+            @Html.DisplayFor(modelItem => item.FIO)
+        </td>
+        <td class="Num_pasport">
+            @Html.DisplayFor(modelItem => item.Num_pasport)
+        </td>
+
+        <td>
+            @if (User.IsInRole("Manager"))
+            {
+                @Html.ActionLink("Изменить", "Edit", new { id = item.Id }, new { @class = "btn icon-redact" })
+            }
+
+            @if (User.IsInRole("Manager"))
+            {
+                <a class="btn icon-create" onclick="showDelete('../Passengers/Delete/@item.Id');">Удалить</a>
+            }
+        </td>
+    </tr>
+}
+
+
+

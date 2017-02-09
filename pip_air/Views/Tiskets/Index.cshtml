@@ -1,5 +1,9 @@
-﻿@model IEnumerable<pip_air.Models.Tiskets>
+﻿@model PagedList.IPagedList<pip_air.Models.Tiskets>
+@using PagedList.Mvc;
 @using pip_air.Models
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
 @{
     ViewBag.Title = "Index";
 }
@@ -10,56 +14,46 @@
 
     @if (User.IsInRole("Manager"))
     {
-        @Html.ActionLink("Добавить", "Create")
+            @Html.ActionLink("Добавить", "Create", null, new { @class = "btn btn-default" })
     }
 </p>
-<table class="table">
-    <tr>
-        <th>
-            Номер рейса
-        </th>
-        <th>
-            Кол-во мест
-        </th>
-        <th>
-            Зарезервировано
-        </th>
-        <th>
-            Куплено
-        </th>
-
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
+<div class="panel-group" id="collapse-group">
+@{int count = 0;
+    string inf = " in"; }
+@foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Flight.Num_flight)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sum_place)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sum_rezerved)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sum_bought)
-            </td>
 
-            <td>
-            @if (User.IsInRole("Manager"))
-            {
-
-                @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }) 
-            }
-                |
-            @if (User.IsInRole("Manager"))
-            {
-                @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#collapse-group" href="#el@(++count)">Номер рейса: @Html.DisplayFor(modelItem => item.Num_flight)</a>
+            </h4>
+        </div>
+        <div id="el@(count)" class="panel-collapse collapse@(inf)"> 
+            <div class="panel-body">
+                Кол-во мест: @Html.DisplayFor(modelItem => item.Sum_place) <br /> 
+                Зарезервировано: @Html.DisplayFor(modelItem => item.Sum_rezerved) <br /> 
+                Куплено: @Html.DisplayFor(modelItem => item.Sum_bought)  <br /> 
+                @if (User.IsInRole("Manager"))
+                {
+                    @Html.ActionLink("Редактировать", "Edit", new { id = item.Id })
                 }
-            </td>
-        </tr>
-    }
+                |
+                @if (User.IsInRole("Manager"))
+                {
+                    @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
+                }
 
-</table>
+
+            </div>
+        </div>
+    </div>
+   inf = " ";
+
+}
+</div>
+
+<br />
+Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))

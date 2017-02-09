@@ -1,0 +1,10 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    ViewBag.Title = "Error";
+}
+
+<h2 class="text-danger">Ошибка</h2>
+<div class="table">
+    @Html.ActionLink("На главную", "Index", "Flights", null, new { @class = "btn btn-default" })
+</div>

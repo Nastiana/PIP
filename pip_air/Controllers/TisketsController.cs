@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using pip_air.Models;
+using PagedList.Mvc;
+using PagedList;
 
 namespace pip_air.Controllers
 {
@@ -19,12 +21,21 @@ namespace pip_air.Controllers
 
         // GET: Tiskets
         [Authorize]
+        public ActionResult Index(int? page)
+        {
+            int pageSize = 4;
+            int pageNumber = (page ?? 1);
+            var tiskets = db.Tiskets.Include(t => t.Flight);
+            return View((tiskets.ToList()).ToPagedList(pageNumber, pageSize));
+        }
+        /*
         public ActionResult Index()
         {
             var tiskets = db.Tiskets.Include(t => t.Flight);
             return View(tiskets.ToList());
-        }
 
+        }
+        */
         // GET: Tiskets/Details/5
         [Authorize(Roles = "Manager")]
         public ActionResult Details(int? id)

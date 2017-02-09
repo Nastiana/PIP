@@ -1,54 +1,65 @@
-﻿@model IEnumerable<pip_air.Models.Passenger>
-
+﻿
 @{
     ViewBag.Title = "Index";
+    // UpdateTargetId - элемент на странице, который будет обновляется после получения новых данных со стороны сервера.
+    // Url - адрес ресурса на сервере, который возвращает данные для обновления страницы
+    var options = new AjaxOptions()
+    {
+        UpdateTargetId = "tabledata",
+        Url = Url.Action("PassengersData")
+    };
 }
+<h2>Список пассажиров</h2>
+<div class="row">
+    @if (User.IsInRole("Manager"))
+    {
+        <div class="col-md-8">
+            @Html.ActionLink("Добавить", "Create", null, new { @class = "btn btn-default" })
+        </div>
+    }
+</div>
 
-<h2>Пассажиры</h2>
 
-<p>
-@if (User.IsInRole("Manager"))
+    @*
+        Ajax.BeginForm(options) - при использовании данного метода, генерируется html элемент со специальными атрибутами.
+        Данные атрибуты будут использоваться библиотекой jquery.unobtrusive-ajax для того, чтобы определить форму, которая вместо
+        обычного postback запроса должна делать асинхронный запрос.
+    *@
+
+    @using (Ajax.BeginForm(options))
+    {
+        <table cellpadding="4" class="table table-hover">
+            <thead>
+                <tr>
+                    <th> Номер рейса </th>
+                    <th> ФИО </th>
+                    <th> Номер паспорта </th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody id="tabledata">
+                @Html.Action("PassengersData", new { Id = Model })
+            </tbody>
+
+        </table>
+
+    }
+@section scripts
 {
-    @Html.ActionLink("Добавить", "Create")
+    @*Ненавязивый JavaScript для выполнения запроса на сервер без полного обновления страницы*@
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 }
-</p>
-<table class="table">
-    <tr>
-        <th>
-           ФИО
-        </th>
-        <th>
-           Номер паспорта
-        </th>
-        <th>
-            Номер рейса
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.FIO)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Num_pasport)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Flight.Num_flight)
-        </td>
-        <td>
-@if (User.IsInRole("Manager"))
-{
-            @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }) 
-}
-            |
-@if (User.IsInRole("Manager"))
-{
-            @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
-}
-        </td>
-    </tr>
-}
-
-</table>
+@*<table class="table">
+        <thead>
+            <tr>
+                <th> Номер рейса </th>
+                <th> ФИО </th>
+                <th> Номер паспорта </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <script src="~/Scripts/Passengers.js"></script>
+*@

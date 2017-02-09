@@ -16,13 +16,25 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         
-        <div class="form-group">
-            @Html.LabelFor(model => model.Num_flight, "Номер рейса", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("Num_flight", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Num_flight, "", new { @class = "text-danger" })
+        @if (ViewBag.flightId != null)
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.Num_flight, "Номер рейса", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input type="text" value="@ViewBag.flightId" class="form-control" name="Num_flight" readonly>
+                </div>
             </div>
-        </div>
+        }
+        else
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.Num_flight, "Номер рейса", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Num_flight", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Num_flight, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        }
 
         <div class="form-group">
             @Html.LabelFor(model => model.FIO,"ФИО", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -39,17 +51,18 @@
                 @Html.ValidationMessageFor(model => model.Num_pasport, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Добавить" class="btn btn-default" />
             </div>
         </div>
     </div>
+        
+
 }
 
 <div>
-    @Html.ActionLink("Назад", "Index")
+    @Html.ActionLink("Назад", "Index", null, new { @class = "btn btn-primary" })
 </div>
 
 @section Scripts {

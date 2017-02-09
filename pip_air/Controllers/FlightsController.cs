@@ -7,6 +7,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using pip_air.Models;
+using PagedList.Mvc;
+using PagedList;
+
 
 namespace pip_air.Controllers
 {
@@ -18,10 +21,17 @@ namespace pip_air.Controllers
 
         // GET: Flights
         [Authorize]
-        public ActionResult Index()
+        public ActionResult Index(int? page)
+        {
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+            List<Flight> flight = db.Flight.ToList();
+            return View(flight.ToPagedList(pageNumber, pageSize));
+        }
+      /*  public ActionResult Index()
         {   
             return View(db.Flight.ToList());
-        }
+        }*/
 
         // GET: Flights/Details/5
         [Authorize(Roles = "Manager")]
@@ -54,14 +64,22 @@ namespace pip_air.Controllers
         [Authorize(Roles = "Manager")]
         public ActionResult Create([Bind(Include = "Num_flight,Airliner,Name_airport")] Flight flight)
         {
-            if (ModelState.IsValid)
-            {
-                db.Flight.Add(flight);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+           try
+                {
+                    if (ModelState.IsValid)
+                    {
+                        db.Flight.Add(flight);
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                    return View(flight);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("410");
+                }
             }
-            return View(flight);
-        }
+        
 
         // GET: Flights/Edit/5
         [Authorize(Roles = "Manager")]
@@ -85,7 +103,7 @@ namespace pip_air.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Manager")]
-        public ActionResult Edit([Bind(Include = "Num_flight,Airliner,Name_airport,Id")] Flight flight)
+        public ActionResult Edit([Bind(Include = "Num_flight,Airliner,Name_airport")] Flight flight)
         {
             if (ModelState.IsValid)
             {

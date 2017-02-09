@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using pip_air.Models;
+using PagedList.Mvc;
+using PagedList;
 
 namespace pip_air.Controllers
 {
@@ -18,11 +20,20 @@ namespace pip_air.Controllers
 
         // GET: Information
         [Authorize]
+        public ActionResult Index(int? page)
+        {
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+            var information = db.Information.Include(i => i.Flight);
+            //List<Information> flight = db.Information.ToList();
+            return View((information.ToList()).ToPagedList(pageNumber, pageSize));
+        }
+        /*
         public ActionResult Index()
         {
             var information = db.Information.Include(i => i.Flight);
             return View(information.ToList());
-        }
+        }*/
 
         // GET: Information/Details/5
         [Authorize(Roles = "Manager")]
@@ -56,6 +67,7 @@ namespace pip_air.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Num_flight,Departure_place,Arrival_place,Time_departure,Time_arrival")] Information information)
         {
+           
             if (ModelState.IsValid)
             {
                 db.Information.Add(information);
@@ -65,7 +77,8 @@ namespace pip_air.Controllers
 
             ViewBag.Num_flight = new SelectList(db.Flight, "Num_flight", "Num_flight", information.Num_flight);
             return View(information);
-        }
+
+}
 
         // GET: Information/Edit/5
         [Authorize(Roles = "Manager")]

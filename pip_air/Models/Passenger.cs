@@ -11,12 +11,16 @@ namespace pip_air.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Passenger
     {
         public int Id { get; set; }
+        [Display(Name = "Номер рейсы")]
         public int Num_flight { get; set; }
+        [Display(Name = "ФИО")]
         public string FIO { get; set; }
+        [Display(Name = "Номер паспорта")]
         public string Num_pasport { get; set; }
     
         public virtual Flight Flight { get; set; }

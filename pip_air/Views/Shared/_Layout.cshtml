@@ -3,12 +3,24 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title -Аэропорт</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
 <body>
+    <script src="@Url.Content("~/Scripts/delete.js")"></script>
+    <link href="@Url.Content("~/Content/deleteDialog.css")" rel="stylesheet" type="text/css" />
+    <div id="delete">
+        <div>
+            <p>Удалить?</p>
+            <form id="delform" action="" method="post">
+                @Html.AntiForgeryToken()
+                <input type="submit" value="Да" onclick="del()" class="btn icon-create">
+                <input type="button" value="Нет" onclick="hideDel()" class="btn icon-redact">
+            </form>
+        </div>
+    </div>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -43,16 +55,15 @@
             </div>
         </div>
     </div>
+    @Scripts.Render("~/bundles/jquery")
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Курочкина Анастасия</p>
-        </footer>
+       
     </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script src="~/Scripts/Search.js"></script>  
 </body>
 </html>

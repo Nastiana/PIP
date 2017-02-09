@@ -49,6 +49,14 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -232,6 +240,12 @@
     <Compile Include="Models\Passenger.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagrams_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sysdiagrams.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -244,6 +258,9 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\CardBlock.css" />
+    <Content Include="Content\deleteDialog.css" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -270,13 +287,6 @@
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EntityDeploy Include="Models\Model1.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Content>
     <EntityDeploy Include="Models\Model2.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model2.Designer.cs</LastGenOutput>
@@ -284,7 +294,16 @@
     <Content Include="Models\Model2.edmx.diagram">
       <DependentUpon>Model2.edmx</DependentUpon>
     </Content>
+    <EntityDeploy Include="Models\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\delete.js" />
+    <Content Include="Scripts\DeleteItem.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -295,6 +314,9 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\Search.js" />
+    <Content Include="Scripts\Passengers.js" />
+    <Content Include="Scripts\Users.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -347,11 +369,11 @@
     <Content Include="Views\Passengers\Details.cshtml" />
     <Content Include="Views\Passengers\Edit.cshtml" />
     <Content Include="Views\Passengers\Index.cshtml" />
-    <Content Include="Views\Tiskets\Create.cshtml" />
-    <Content Include="Views\Tiskets\Delete.cshtml" />
-    <Content Include="Views\Tiskets\Details.cshtml" />
-    <Content Include="Views\Tiskets\Edit.cshtml" />
-    <Content Include="Views\Tiskets\Index.cshtml" />
+    <Content Include="Tiskets\Create.cshtml" />
+    <Content Include="Tiskets\Delete.cshtml" />
+    <Content Include="Tiskets\Details.cshtml" />
+    <Content Include="Tiskets\Edit.cshtml" />
+    <Content Include="Tiskets\Index.cshtml" />
     <Content Include="Views\Users\Create.cshtml" />
     <Content Include="Views\Users\Delete.cshtml" />
     <Content Include="Views\Users\Details.cshtml" />
@@ -360,6 +382,13 @@
     <Content Include="Views\Error\Forbidden.cshtml" />
     <Content Include="Views\Error\NotFound.cshtml" />
     <Content Include="Views\Error\NullParameter.cshtml" />
+    <Content Include="Views\Tiskets\Create.cshtml" />
+    <Content Include="Views\Tiskets\Delete.cshtml" />
+    <Content Include="Views\Tiskets\Details.cshtml" />
+    <Content Include="Views\Tiskets\Edit.cshtml" />
+    <Content Include="Views\Tiskets\Index.cshtml" />
+    <Content Include="Views\Error\Error.cshtml" />
+    <Content Include="Views\Passengers\PassengersData.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

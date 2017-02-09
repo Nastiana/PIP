@@ -13,5 +13,7 @@ namespace pip_air.Controllers
         public ActionResult NotFound() => View();
 
         public ActionResult Forbidden() => View();
+
+        public ActionResult Error() => View();
     }
 }
